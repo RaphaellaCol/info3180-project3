@@ -2,7 +2,10 @@
 # Flask
 # ----------------------
 flask
-
+Flask-SQLAlchemy
+psycopg2
+BeautifulSoup
+Flask-WTF
 
 # ----------------------
 # Testing

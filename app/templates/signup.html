@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+
+{% block js %}
+{% endblock %}
+
+
+{% block main %}
+<style>
+body{
+    background-color:#b3d9ff;
+}    
+    
+ #content{
+     border: solid 2px;
+         width: 40%;
+         margin-left: 30%;
+         background-color:  #e6f2ff;
+         font-weight: bold;
+         font-size: 18px;
+         padding:10px;
+         text-align: center;
+         height:70%;
+         position:relative;
+ } 
+ 
+  input{
+     font-size:20px;
+     border-radius:20px;
+ } 
+ 
+
+</style>
+
+<div id = 'content'>
+    <h1>Signup</h1>
+    <br><br>
+    <form method="post" enctype="multipart/form-data" class="add-entry">
+    <div>
+    Username: {{form.username}}
+    <br><br>
+    Email: {{form.email}}
+    <br><br>
+    Password: {{form.password}}
+    <br><br>
+    </div>
+
+<input type="submit" />
+
+</div>  
+   {{ form.csrf_token }}  
+   
+</form>
+       
+{% endblock %}

@@ -6,10 +6,12 @@ Werkzeug Documentation:  http://werkzeug.pocoo.org/documentation/
 This file creates your application.
 """
 
-from app import app
-from flask import render_template, request, redirect, url_for
+from app import app, db
+from flask import render_template, request, redirect, url_for, session, flash, jsonify
+from .forms import Additem, LoginForm
+from app.models import User, Item
 
-
+app.secret_key = "Info3180"
 ###
 # Routing for your application.
 ###
@@ -25,6 +27,56 @@ def about():
     """Render the website's about page."""
     return render_template('about.html')
 
+@app.route('/wishlist/')
+def wishlist():
+    return render_template('wishlist.html')
+    
+@app.route('/add/', methods=["GET","POST"])
+def add():
+    """Render the website's profile page to add profile."""
+    form = Additem(request.form)
+
+    if request.method == "POST" and form.validate_on_submit():
+        print "oh yeah"
+        url= request.form['url']
+        title= request.form['title']
+        description= request.form['description']
+        item= Item(url=url, title=title, description=description)
+        db.session.add(item)
+        db.session.commit()
+        print "yeah"
+        return redirect(url_for('wishlist'))
+    return render_template('add.html', form=form)
+    
+@app.route('/login/', methods=["GET","POST"])
+def login():
+    """Render the website's profile page to add profile."""
+    form = LoginForm(request.form)
+
+    if request.method == "POST" and form.validate_on_submit():
+        print "oh yeah"
+        username= request.form['username']
+        password= request.form['password']
+        print "yeah"
+        return redirect(url_for('wishlist'))
+    return render_template('login.html', form=form) 
+    
+@app.route('/signup/', methods=["GET","POST"])
+def signup():
+    """Render the website's profile page to add profile."""
+    form = LoginForm(request.form)
+
+    if request.method == "POST" and form.validate_on_submit():
+        print "oh yeah"
+        username= request.form['username']
+        email= request.form['email']
+        password= request.form['password']
+        info= User(username=username, email=email,password=password)
+        db.session.add(info)
+        db.session.commit()
+        print "yeah"
+        return redirect(url_for('login'))
+    return render_template('signup.html', form=form)  
 
 ###
 # The functions below should be applicable to all Flask apps.
