@@ -6,7 +6,7 @@ app = Flask(__name__)
 db = SQLAlchemy(app)
 from models import *
 
-
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://zacldghmaphilm:J_Fqd12eogbaJfUAdhROB33nGz@ec2-107-20-222-114.compute-1.amazonaws.com:5432/ddkadcpjqh4jtn'
 #db.drop_all()
 db.create_all()
 

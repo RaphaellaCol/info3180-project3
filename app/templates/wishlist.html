@@ -46,14 +46,22 @@ li a:hover {
 </style>
 
 <ul>
-  <li><a class="active" href="#home">Home</a></li>
-  <li><a href="wishlist">Wishlist</a></li>
+  <li><a class="active" href="/api/user/login/">Home</a></li>
+  <li><a href="/api/user/:id/wishlist/"> Add to Wishlist</a></li>
   <li id="logout"><a href="#logout">Logout</a></li>
 </ul>   
 
 
 <h1>Wishlist</h1>
 
+<div>
+    {% for add in wishlist %}
+        <div id="item"><a href="/api/wishlist/{{add.id}}"> {{ add.url }} {{ add.title}} {{add.description}} </a></div>
+      
+    {% endfor %}
+    
+    
+</div>
 
 
 {% endblock %}

@@ -69,8 +69,8 @@ li a:hover {
 </style>
 
 <ul>
-  <li><a class="active" href="#home">Home</a></li>
-  <li><a href="wishlist"> My Wishlist</a></li>
+  <li><a class="active" href="/api/user/login/">Home</a></li>
+  <li><a href="/api/wishlist"> My Wishlist</a></li>
   <li id="logout"><a href="#logout">Logout</a></li>
 </ul>
 <br><br><br><br>
@@ -88,7 +88,7 @@ li a:hover {
     <br><br>
     </div>
     
-    <input type="submit" />
+     <a href="/api/wishlist/" button type="button" class="btn btn-default btn-sm">Add</button></a>
 
 </div>  
    {{ form.csrf_token }}  

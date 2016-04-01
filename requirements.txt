@@ -6,7 +6,7 @@ Flask-SQLAlchemy
 psycopg2
 BeautifulSoup
 Flask-WTF
-
+flask-login
 # ----------------------
 # Testing
 # ----------------------

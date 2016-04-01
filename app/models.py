@@ -11,17 +11,22 @@ class User(db.Model):
           self.username = username
           self.email = email
           self.password = password
-           
+
+def __repr__(self):
+        return '<User %r>' % self.username
+        
 class Item(db.Model):
     __tablename__ = 'item'
     id = db.Column(db.Integer, primary_key=True)
-    url = db.Column(db.String(80), unique=True)
+    url = db.Column(db.String(200), unique=False)
     title = db.Column(db.String(80), unique=False)
     description= db.Column(db.String(80), unique=False)
+   
    
     def __init__(self, url, title, description):
           self.url = url
           self.title = title
-          self.description = description          
+          self.description = description 
+          
            
           

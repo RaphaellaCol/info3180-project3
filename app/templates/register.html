@@ -22,6 +22,7 @@ body{
          text-align: center;
          height:70%;
          position:relative;
+         margin-top: 70px;
  } 
  
   input{
@@ -29,7 +30,6 @@ body{
      border-radius:20px;
  } 
  
-
 </style>
 
 <div id = 'content'>
@@ -45,8 +45,8 @@ body{
     <br><br>
     </div>
 
-<input type="submit" />
-
+ <a href="/api/user/login/" button type="button" class="btn btn-default btn-sm">Submit</button></a>
+ 
 </div>  
    {{ form.csrf_token }}  
    
