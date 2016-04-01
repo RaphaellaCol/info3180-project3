@@ -8,7 +8,7 @@ This file creates your application.
 
 from app import app, db
 from flask import render_template, request, redirect, url_for, session, flash, jsonify
-from .forms import Additem, LoginForm
+from .forms import Additem, LoginForm, Register
 from app.models import User, Item
 import requests
 import BeautifulSoup
@@ -16,20 +16,6 @@ import urlparse
 
 
 app.secret_key = "Info3180"
-###
-# Routing for your application.
-###
-
-@app.route('/')
-def home():
-    """Render website's home page."""
-    return render_template('home.html')
-
-
-@app.route('/about/')
-def about():
-    """Render the website's about page."""
-    return render_template('about.html')
 
 def imgs(url):    
     url = "http://www.amazon.com/gp/product/1783551623"
@@ -60,16 +46,13 @@ def thumb_nail():
 
 @app.route('/api/wishlist/', methods=["GET"])
 def wishlist():
-    lists = Item.query.all()
-    if request.method =='POST':
-        print "POST"
-    return render_template('wishlist.html', lists=lists)
+    return render_template('wishlist.html')
    
-def img1(url):
-    pic = imgs ("http://" + url)[0]
-    if pic[0] == "/":
-        pic = "http://" + url + pic  #This creates a URL for the image
-    return "<img src=%s></img>" % pic  #Return the image in an HTML "img" tag
+# def img1(url):
+#     pic = imgs ("http://" + url)[0]
+#     if pic[0] == "/":
+#         pic = "http://" + url + pic  #This creates a URL for the image
+#     return "<img src=%s></img>" % pic  #Return the image in an HTML "img" tag
     
 @app.route('/api/user/:id/wishlist/', methods=["GET","POST"])
 def add():
@@ -78,7 +61,7 @@ def add():
     
     if request.method == "POST" and form.validate_on_submit():
         print "oh yeah"
-        url= img1()
+        url= request.form['url']
         title= request.form['title']
         description= request.form['description']
         item= Item(url=url, title=title, description=description)
@@ -105,7 +88,7 @@ def login():
 @app.route('/api/user/register/', methods=["GET","POST"])
 def register():
     """Render the website's profile page to add profile."""
-    form = LoginForm(request.form)
+    form = Register(request.form)
 
     if request.method == "POST" and form.validate_on_submit():
         print "oh yeah"
