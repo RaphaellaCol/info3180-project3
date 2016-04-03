@@ -8,25 +8,27 @@
 {% block main %}
 <style>
 body{
-    background-color:#b3d9ff;
+    background-color:#00ccff;
 }
 
  h1{
     font-style:cursive; 
  }   
  
- #content{
-     border: solid 2px;
+#content{
+         border-radius: 20px;
+         border:solid;
          width: 40%;
          margin-left: 30%;
          background-color:  #e6f2ff;
          font-weight: bold;
-         font-size: 100%;
-         padding:5px;
+         font-size: 18px;
+         padding:10px;
          text-align: center;
          height:70%;
          position:relative;
- }  
+         margin-top: 70px;
+ } 
  
  #url{
      font-size: 18px;
@@ -66,6 +68,11 @@ li a:hover {
 #logout{
     float:right;
 }
+
+#but{
+    font-weight:bold;
+    font-size:20px;
+}
 </style>
 
 <ul>
@@ -88,7 +95,7 @@ li a:hover {
     <br><br>
     </div>
     
-     <a href="/api/wishlist/" button type="button" class="btn btn-default btn-sm">Add</button></a>
+     <a id="but" href="/api/wishlist/" button type="button" class="btn btn-default btn-sm">Add</button></a>
 
 </div>  
    {{ form.csrf_token }}  
