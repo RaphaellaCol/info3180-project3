@@ -5,6 +5,7 @@ flask
 Flask-SQLAlchemy
 psycopg2
 BeautifulSoup
+flask-migrate
 Flask-WTF
 flask-login
 # ----------------------

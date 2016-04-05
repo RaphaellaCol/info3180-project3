@@ -59,7 +59,7 @@ li  {
 <div id = 'content'>
     <h1>Signup</h1>
     <br><br>
-    <form method="post" enctype="multipart/form-data" class="add-entry">
+    <form method=post enctype="multipart/form-data" class="add-entry" action="{{ url_for('register') }}">
     <div>
     Username: {{form.username}}
     <br><br>
@@ -68,8 +68,9 @@ li  {
     Password: {{form.password}}
     <br><br>
     </div>
+    {{form.submit(class="btn btn-default btn-sm")}}
 
- <a id ="sub" href="/api/user/login/" button type="button" class="btn btn-default btn-sm">Submit</button></a>
+ <!--<a id ="sub" href="/api/user/login" button type="button" class="btn btn-default btn-sm">Submit</button></a>-->
  
 </div>  
    {{ form.csrf_token }}  

@@ -7,7 +7,7 @@ This file creates your application.
 """
 
 from app import app, db
-from flask import render_template, request, redirect, url_for, session, flash, jsonify
+from flask import render_template, request, redirect, url_for, session, flash, json, jsonify
 from .forms import Additem, LoginForm, Register
 from app.models import User, Item
 import requests
@@ -17,10 +17,14 @@ import urlparse
 
 app.secret_key = "Info3180"
 
-def imgs(url):    
-    url = "http://www.amazon.com/gp/product/1783551623"
-    result = requests.get(url)
-    soup = BeautifulSoup.BeautifulSoup(result.text)
+
+    
+@app.route('/api/thumbnail/process/', methods=["GET"])
+def imgs():    
+    url = request.args.get('url')
+    imagelist = []
+    print url
+    soup = BeautifulSoup.BeautifulSoup(requests.get(url).text)
     og_image = (soup.find('meta', property='og:image') or
                         soup.find('meta', attrs={'name': 'og:image'}))
                         
@@ -32,75 +36,94 @@ def imgs(url):
         print thumbnail_spec['href']
     
     def image_dem():
-        image = """<img src="%s">"""
-        for img in soup.findAll("img", src=True):
+        # image = """<img src="%s">"""
+        for img in soup.findAll("img"):
           if "sprite" not in img["src"]:
-              print image % urlparse.urljoin(url, img["src"])
+              imagelist.append(urlparse.urljoin(url,img['src']))
+            #   imageitem = image % urlparse.urljoin(url, img["src"])
     
     image_dem()
-    
-@app.route('/api/thumbnail/process/', methods=["GET"])
-def thumb_nail():
-    url=request.form['url']
-    return render_template('wishlist.html')    
+    print imagelist
+    if(len(imagelist)==0):
+        response = jsonify({"data":{},"message":"Unable to extract thumbnails"})
+        print response
+        return response
+    else:
+        response = jsonify({"data":{"thumbnails":imagelist},"message":"Success"})  
+        print response
+        return response
 
-@app.route('/api/wishlist/', methods=["GET"])
-def wishlist():
-    return render_template('wishlist.html')
+# @app.route('/api/user/<userid>/wishlist/', methods=["GET",])
+# def wishlist():
+    
+#     return render_template('wishlist.html')
    
-# def img1(url):
-#     pic = imgs ("http://" + url)[0]
-#     if pic[0] == "/":
-#         pic = "http://" + url + pic  #This creates a URL for the image
-#     return "<img src=%s></img>" % pic  #Return the image in an HTML "img" tag
-    
-@app.route('/api/user/:id/wishlist/', methods=["GET","POST"])
-def add():
-    """Render the website's profile page to add profile."""
+@app.route('/api/user/<userid>/wishlist/', methods=["GET","POST"])
+def wishlist(userid):
     form = Additem(request.form)
-    
-    if request.method == "POST" and form.validate_on_submit():
-        print "oh yeah"
+    if request.method =="GET":
+        user = db.session.query(User).filter_by(id=userid).first()
+        items = db.session.query(Item).filter_by(userid=user.id).all()
+        itemlist = []
+        for item in items:
+            itemlist.append({'title':item.title,'url':item.url,'thumbnail':item.thumbnail,'description':item.description})
+        if(len(itemlist)==0):
+            response = jsonify({"data":{},"message":"Request failed"})
+            print response
+            return response
+        else:
+            response = jsonify({"data":{"items":itemlist},"message":"Success"})
+            print response
+            return response
+    if request.method == "POST":
+        user = db.session.query(User).filter_by(id=userid).first()
         url= request.form['url']
+        thumbnail = request.form['thumbnail']
         title= request.form['title']
         description= request.form['description']
-        item= Item(url=url, title=title, description=description)
-        db.session.add(item)
-        db.session.commit()
-        print "yeah"
-        return redirect(url_for('wishlist'))
+        item= Item(url=url, thumbnail=thumbnail, title=title, description=description,userid=user.id)
+        if item:
+            db.session.add(item)
+            db.session.commit()
+            response = jsonify({'data':{'url':url,'thumbnail':thumbnail,'title':title,'description':description,'user':userid},'message':'success'})
+            print response
+            return  response
+        else:
+            response = jsonify({'data':{},'message':'Request failed'})
+            print response
+            return response
     return render_template('add.html', form=form)
      
          
 @app.route('/api/user/login/', methods=["GET","POST"])
 def login():
-    """Render the website's profile page to add profile."""
     form = LoginForm(request.form)
 
-    if request.method == "POST" and form.validate_on_submit():
-        print "oh yeah"
-        username= request.form['username']
+    if request.method == "POST":
+        email= request.form['email']
         password= request.form['password']
-        print "yeah"
-        return redirect(url_for('register'))
+        response = jsonify({'data':{'email':email,'password':password},'message':'logged in'})
+        # return redirect(url_for('register'))
+        print response
+        return response
     return render_template('login.html', form=form) 
     
-@app.route('/api/user/register/', methods=["GET","POST"])
+@app.route('/api/user/register/', methods=["GET",'POST'])
 def register():
-    """Render the website's profile page to add profile."""
     form = Register(request.form)
-
-    if request.method == "POST" and form.validate_on_submit():
-        print "oh yeah"
+    if request.method == 'POST':
         username= request.form['username']
         email= request.form['email']
         password= request.form['password']
         info= User(username=username, email=email, password=password)
-        db.session.add(info)
-        db.session.commit()
-        print "yeah"
-       # return redirect(url_for('login'))
-    return render_template('register.html', form=form)  
+        if info:
+            db.session.add(info)
+            db.session.commit()
+            response = jsonify({'data':{"username":username,"email":email,"password":password},'message':'Success'})
+            print response
+            return response
+    else:
+        return render_template('register.html', form=form)  
 
 ###
 # The functions below should be applicable to all Flask apps.

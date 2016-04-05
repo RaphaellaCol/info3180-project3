@@ -55,10 +55,11 @@ li a:hover {
 <h1>Wishlist</h1>
 
 <div>
-    <!--{% for add in wishlist %}-->
-    <!--    <div id="item"><a href="/api/wishlist/{{add.id}}"> {{ add.url }} {{ add.title}} {{add.description}} </a></div>-->
+    {% for add in wishlist %}
+        <div id="info">{{add.title}} {{add.description}}</div>
+        <div id="item"> <img src= "{{add.thumbnail}}"></div>
       
-    <!--{% endfor %}-->
+    {% endfor %}
     
     
 </div>
