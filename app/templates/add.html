@@ -1,0 +1,105 @@
+{% extends "base.html" %}
+
+
+{% block js %}
+{% endblock %}
+
+
+{% block main %}
+<style>
+body{
+    background-color:#00ccff;
+}
+
+ h1{
+    font-style:cursive; 
+ }   
+ 
+#content{
+         border-radius: 20px;
+         border:solid;
+         width: 40%;
+         margin-left: 30%;
+         background-color:  #e6f2ff;
+         font-weight: bold;
+         font-size: 18px;
+         padding:10px;
+         text-align: center;
+         height:70%;
+         position:relative;
+         margin-top: 70px;
+ } 
+ 
+ #url{
+     font-size: 18px;
+     font-weight: bold;
+ }
+ 
+ input{
+     font-size:20px;
+     border-radius:20px;
+ } 
+ ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #333;
+}
+
+li {
+    float: left;
+}
+
+
+li a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    font-size:20px;
+}
+
+li a:hover {
+    background-color: #111;
+}
+
+#logout{
+    float:right;
+}
+
+#but{
+    font-weight:bold;
+    font-size:20px;
+}
+</style>
+
+<ul>
+  <li><a class="active" href="/api/user/login/">Home</a></li>
+  <li><a href="/api/wishlist"> My Wishlist</a></li>
+  <li id="logout"><a href="api/user/logout">Logout</a></li>
+</ul>
+<br><br><br><br>
+<div id = 'content'>
+    <h1>Add to Wishlist:</h1>
+    <br><br>
+    <form method="post" enctype="multipart/form-data" class="add-entry">
+
+    <div id='url'>Url: {{form.url}} 
+
+    <br><br><br>
+    Title: {{form.title}}
+    <br><br><br>
+    Description: {{form.description}}
+    <br><br>
+    </div>
+    
+     <a id="but" href="/api/thumbnail/process" button type="button" class="btn btn-default btn-sm">Add</button></a>
+
+</div>  
+   {{ form.csrf_token }}  
+   
+</form>
+       
+{% endblock %}

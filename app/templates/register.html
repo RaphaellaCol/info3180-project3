@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+
+
+{% block js %}
+{% endblock %}
+
+
+{% block main %}
+<style>
+body{
+    background-color:#00ccff;
+}    
+    
+ #content{
+     border: solid 2px;
+         width: 40%;
+         margin-left: 30%;
+         background-color:  #e6f2ff;
+         font-weight: bold;
+         font-size: 18px;
+         padding:10px;
+         text-align: center;
+         position:relative;
+         margin-top: 70px;
+ } 
+ 
+  input{
+     font-size:20px;
+     border-radius:20px;
+ } 
+  ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #000000;
+    border:solid 3px ;
+}
+
+li  {
+    display: block;
+    color: #ffffff;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    font-size:35px;
+    font-weight:bold;
+}
+#sub{
+    font-weight:bold;
+    font-size:20px;
+}
+</style>
+<ul>
+  <li>WISHLIST</li>
+</ul>
+
+<div id = 'content'>
+    <h1>Signup</h1>
+    <br><br>
+    <form method=post enctype="multipart/form-data" class="add-entry" action="{{ url_for('register') }}">
+    <div>
+    Username: {{form.username}}
+    <br><br>
+    Email: {{form.email}}
+    <br><br>
+    Password: {{form.password}}
+    <br><br>
+    </div>
+    {{form.submit(class="btn btn-default btn-sm")}}
+
+ <!--<a id ="sub" href="/api/user/login" button type="button" class="btn btn-default btn-sm">Submit</button></a>-->
+ 
+</div>  
+   {{ form.csrf_token }}  
+   
+</form>
+       
+{% endblock %}

@@ -1,0 +1,106 @@
+{% extends "base.html" %}
+{% include "flash.html" %}
+
+{% block js %}
+{% endblock %}
+
+
+{% block main %}
+<style>
+body{
+    background-color:  #00ccff; 
+}    
+    
+ #content{
+         border-radius: 20px;
+         border:solid;
+         width: 40%;
+         margin-left: 30%;
+         background-color:  #e6f2ff;
+         font-weight: bold;
+         font-size: 18px;
+         padding:10px;
+         text-align: center;
+         /*height:70%;*/
+         position:relative;
+         margin-top: 90px;
+         display:inline-block;
+ } 
+ 
+  input{
+     font-size:20px;
+     border-radius:20px;
+ } 
+ 
+ span{
+     color:#33cc33;
+ }
+ 
+ ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #000000;
+    border:solid 3px ;
+}
+
+li  {
+    display: block;
+    color: #ffffff;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    font-size:35px;
+    font-weight:bold;
+}
+
+.but{
+    font-weight:bold;
+    font-size:20px;
+}
+
+#sub{
+    font-weight:bold;
+    font-size:20px;
+}
+
+</style>
+
+<ul>
+  <li>WISHLIST</li>
+</ul>
+</style>
+
+<div id = 'content'>
+    
+    <h1>Login</h1>
+    <br><br>
+   
+    <form method="post" enctype="multipart/form-data" class="add-entry">
+    <div>
+    Email: {{form.email}}
+    <br><br>
+    
+    Password: {{form.password}}
+    <br><br>
+    </div>
+    {{form.submit(class="btn btn-default btn-sm")}}
+
+<!--<a id="sub" href="/api/wishlist/" button type="button" class="btn btn-default btn-sm">Submit</button></a>-->
+
+<br><br>
+
+    <a class ="but" href="/api/user/register/" button type="button" class="btn btn-default btn-sm">
+    <span class="glyphicon glyphicon-question-sign"></span>
+    Don't have an account? Signup here.</button></a>
+
+ {% if error %}
+    <p class=error>Error: {{ error }}
+  {% endif %}
+</div>  
+   {{ form.csrf_token }}  
+   
+</form>
+       
+{% endblock %}
