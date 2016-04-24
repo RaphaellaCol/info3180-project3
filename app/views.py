@@ -13,10 +13,8 @@ from app.models import User, Item
 import requests
 import BeautifulSoup
 import urlparse
-<<<<<<< HEAD
 from passlib.hash import sha256_crypt
-=======
->>>>>>> 8567172ac758c6e4e965c4440b775be693c3eba0
+
 
 
 app.secret_key = "Info3180"
@@ -49,12 +47,10 @@ def imgs():
     image_dem()
     print imagelist
     if(len(imagelist)==0):
-<<<<<<< HEAD
         response = jsonify({"error": "null", "data":{},"message":"Unable to extract thumbnails"})
     else:
         response = jsonify({"error": "1", "data":{"thumbnails":imagelist},"message":"Success"})  
     return response
-=======
         response = jsonify({"data":{},"message":"Unable to extract thumbnails"})
         print response
         return response
@@ -62,7 +58,7 @@ def imgs():
         response = jsonify({"data":{"thumbnails":imagelist},"message":"Success"})  
         print response
         return response
->>>>>>> 8567172ac758c6e4e965c4440b775be693c3eba0
+
 
 # @app.route('/api/user/<userid>/wishlist/', methods=["GET",])
 # def wishlist():
@@ -79,14 +75,12 @@ def wishlist(userid):
         for item in items:
             itemlist.append({'title':item.title,'url':item.url,'thumbnail':item.thumbnail,'description':item.description})
         if(len(itemlist)==0):
-<<<<<<< HEAD
             response = jsonify({"error": "null", "data":{},"message":"Request failed"})
         else:
             response = jsonify({"error": "1", "data":{"items":itemlist},"message":"Success"})
             return response
     else:  
     # if request.method == "POST":
-=======
             response = jsonify({"data":{},"message":"Request failed"})
             print response
             return response
@@ -95,7 +89,6 @@ def wishlist(userid):
             print response
             return response
     if request.method == "POST":
->>>>>>> 8567172ac758c6e4e965c4440b775be693c3eba0
         user = db.session.query(User).filter_by(id=userid).first()
         url= request.form['url']
         thumbnail = request.form['thumbnail']
@@ -105,13 +98,11 @@ def wishlist(userid):
         if item:
             db.session.add(item)
             db.session.commit()
-<<<<<<< HEAD
             response = jsonify({"error": "null", 'data':{'url':url,'thumbnail':thumbnail,'title':title,'description':description,'user':userid},'message':'success'})
         else:
             response = jsonify({"error": "1", 'data':{},'message':'Request failed'})
         return response
         # return render_template('add.html', form=form)
-=======
             response = jsonify({'data':{'url':url,'thumbnail':thumbnail,'title':title,'description':description,'user':userid},'message':'success'})
             print response
             return  response
@@ -120,13 +111,11 @@ def wishlist(userid):
             print response
             return response
     return render_template('add.html', form=form)
->>>>>>> 8567172ac758c6e4e965c4440b775be693c3eba0
      
          
 @app.route('/api/user/login/', methods=["GET","POST"])
 def login():
     form = LoginForm(request.form)
-<<<<<<< HEAD
     
     if request.method == "POST":
         email= request.form['email']
@@ -150,7 +139,6 @@ def login():
             
     return render_template('login.html', form=form) 
    
-=======
 
     if request.method == "POST":
         email= request.form['email']
@@ -160,7 +148,6 @@ def login():
         print response
         return response
     return render_template('login.html', form=form) 
->>>>>>> 8567172ac758c6e4e965c4440b775be693c3eba0
     
 @app.route('/api/user/register/', methods=["GET",'POST'])
 def register():
@@ -168,16 +155,13 @@ def register():
     if request.method == 'POST':
         username= request.form['username']
         email= request.form['email']
-<<<<<<< HEAD
         password= sha256_crypt.encrypt(str(request.form['password']))
-=======
+
         password= request.form['password']
->>>>>>> 8567172ac758c6e4e965c4440b775be693c3eba0
         info= User(username=username, email=email, password=password)
         if info:
             db.session.add(info)
             db.session.commit()
-<<<<<<< HEAD
             response = jsonify({"error": "null", 'data':{"username":username,"email":email,"password":password},'message':'Success'})
             return redirect(url_for('login'))
         else:
@@ -192,14 +176,11 @@ def register():
 #       session.pop('logged_in', None)
 #       return jsonify({'result': 'success'})
                 
-            
-=======
             response = jsonify({'data':{"username":username,"email":email,"password":password},'message':'Success'})
             print response
             return response
     else:
         return render_template('register.html', form=form)  
->>>>>>> 8567172ac758c6e4e965c4440b775be693c3eba0
 
 ###
 # The functions below should be applicable to all Flask apps.
