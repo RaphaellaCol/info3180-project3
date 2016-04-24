@@ -51,13 +51,7 @@ def imgs():
     else:
         response = jsonify({"error": "1", "data":{"thumbnails":imagelist},"message":"Success"})  
     return response
-        response = jsonify({"data":{},"message":"Unable to extract thumbnails"})
-        print response
-        return response
-    else:
-        response = jsonify({"data":{"thumbnails":imagelist},"message":"Success"})  
-        print response
-        return response
+    
 
 
 # @app.route('/api/user/<userid>/wishlist/', methods=["GET",])
@@ -81,20 +75,13 @@ def wishlist(userid):
             return response
     else:  
     # if request.method == "POST":
-            response = jsonify({"data":{},"message":"Request failed"})
-            print response
-            return response
-        else:
-            response = jsonify({"data":{"items":itemlist},"message":"Success"})
-            print response
-            return response
-    if request.method == "POST":
-        user = db.session.query(User).filter_by(id=userid).first()
-        url= request.form['url']
-        thumbnail = request.form['thumbnail']
-        title= request.form['title']
-        description= request.form['description']
-        item= Item(url=url, thumbnail=thumbnail, title=title, description=description,userid=user.id)
+        if request.method == "POST":
+            user = db.session.query(User).filter_by(id=userid).first()
+            url= request.form['url']
+            thumbnail = request.form['thumbnail']
+            title= request.form['title']
+            description= request.form['description']
+            item= Item(url=url, thumbnail=thumbnail, title=title, description=description,userid=user.id)
         if item:
             db.session.add(item)
             db.session.commit()
@@ -103,13 +90,6 @@ def wishlist(userid):
             response = jsonify({"error": "1", 'data':{},'message':'Request failed'})
         return response
         # return render_template('add.html', form=form)
-            response = jsonify({'data':{'url':url,'thumbnail':thumbnail,'title':title,'description':description,'user':userid},'message':'success'})
-            print response
-            return  response
-        else:
-            response = jsonify({'data':{},'message':'Request failed'})
-            print response
-            return response
     return render_template('add.html', form=form)
      
          
@@ -139,15 +119,6 @@ def login():
             
     return render_template('login.html', form=form) 
    
-
-    if request.method == "POST":
-        email= request.form['email']
-        password= request.form['password']
-        response = jsonify({'data':{'email':email,'password':password},'message':'logged in'})
-        # return redirect(url_for('register'))
-        print response
-        return response
-    return render_template('login.html', form=form) 
     
 @app.route('/api/user/register/', methods=["GET",'POST'])
 def register():
@@ -156,8 +127,6 @@ def register():
         username= request.form['username']
         email= request.form['email']
         password= sha256_crypt.encrypt(str(request.form['password']))
-
-        password= request.form['password']
         info= User(username=username, email=email, password=password)
         if info:
             db.session.add(info)
@@ -176,11 +145,7 @@ def register():
 #       session.pop('logged_in', None)
 #       return jsonify({'result': 'success'})
                 
-            response = jsonify({'data':{"username":username,"email":email,"password":password},'message':'Success'})
-            print response
-            return response
-    else:
-        return render_template('register.html', form=form)  
+     
 
 ###
 # The functions below should be applicable to all Flask apps.
