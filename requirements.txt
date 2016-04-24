@@ -7,6 +7,10 @@ psycopg2
 BeautifulSoup
 flask-migrate
 Flask-WTF
+<<<<<<< HEAD
+=======
+flask-login
+>>>>>>> 8567172ac758c6e4e965c4440b775be693c3eba0
 # ----------------------
 # Testing
 # ----------------------
