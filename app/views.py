@@ -52,17 +52,12 @@ def imgs():
         response = jsonify({"error": "1", "data":{"thumbnails":imagelist},"message":"Success"})  
     return response
     
-
-
-# @app.route('/api/user/<userid>/wishlist/', methods=["GET",])
-# def wishlist():
-    
-#     return render_template('wishlist.html')
-   
-@app.route('/api/user/<userid>/wishlist/', methods=["GET","POST"])
-def wishlist(userid):
-    form = Additem(request.form)
-    if request.method =="GET":
+"""return user wishlist"""
+@app.route('/api/user/<userid>/wishlist/', methods=["GET"])
+def api_wishlist(userid):
+     form = Additem(request.form)
+     
+     if request.method =="GET":
         user = db.session.query(User).filter_by(id=userid).first()
         items = db.session.query(Item).filter_by(userid=user.id).all()
         itemlist = []
@@ -73,40 +68,63 @@ def wishlist(userid):
         else:
             response = jsonify({"error": "1", "data":{"items":itemlist},"message":"Success"})
             return response
-    else:  
-    # if request.method == "POST":
-        if request.method == "POST":
-            user = db.session.query(User).filter_by(id=userid).first()
-            url= request.form['url']
-            thumbnail = request.form['thumbnail']
-            title= request.form['title']
-            description= request.form['description']
-            item= Item(url=url, thumbnail=thumbnail, title=title, description=description,userid=user.id)
+     return render_template('wishlist.html')
+     
+"""add items to wishlist"""   
+@app.route('/user/<userid>/wishlist/new', methods=["GET","POST"])
+def wishlist_add(userid):
+    form = Additem(request.form)
+   
+    if request.method == "POST":
+        url= request.form['url']
+        thumbnail = request.form['thumbnail']
+        title= request.form['title']
+        description= request.form['description']
+        user = db.session.query(User).filter_by(id=userid).first()
+        item= Item(url=url, thumbnail=thumbnail, title=title, description=description,userid=user.id)
         if item:
             db.session.add(item)
             db.session.commit()
             response = jsonify({"error": "null", 'data':{'url':url,'thumbnail':thumbnail,'title':title,'description':description,'user':userid},'message':'success'})
+            return redirect(url_for('api_wishlist', userid=user.id))
         else:
             response = jsonify({"error": "1", 'data':{},'message':'Request failed'})
-        return response
-        # return render_template('add.html', form=form)
+            return response
     return render_template('add.html', form=form)
-     
+
+@app.route('/user/<userid>/wishlist/', methods=["GET","POST"])
+def wishlist(userid):
+    form = Additem(request.form)
+   
+    if request.method == "POST":
+        url= request.form['url']
+        thumbnail = request.form['thumbnail']
+        title= request.form['title']
+        description= request.form['description']
+        user = db.session.query(User).filter_by(id=userid).first()
+        item= Item(url=url, thumbnail=thumbnail, title=title, description=description,userid=user.id)
+        if item:
+            response = jsonify({"error": "null", 'data':{'url':url,'thumbnail':thumbnail,'title':title,'description':description,'user':userid},'message':'success'})
+            return redirect(url_for('api_wishlist', userid=user.id))
+        else:
+            response = jsonify({"error": "1", 'data':{},'message':'Request failed'})
+            return response
+    return render_template('wishlist.html', form=form)
          
 @app.route('/api/user/login/', methods=["GET","POST"])
 def login():
     form = LoginForm(request.form)
-    
     if request.method == "POST":
         email= request.form['email']
         password= request.form['password']
         user = db.session.query(User).filter_by(email=form.email.data).first()
         if user:
             response = jsonify({"error": "null", 'data':{'email':email,'password':password},'message':'logged in'})
-            return redirect(url_for('wishlist'))
+            session['logged_in'] = True
+            return redirect(url_for('wishlist', userid=user.id))
         else:
-             response = jsonify({"error": "1", 'data':{},'message':'Error- Not logged in'})
-             return redirect(url_for('login'))
+            response = jsonify({"error": "1", 'data':{},'message':'Error- Not logged in'})
+            return redirect(url_for('login',))
         
         if password is None or password =="":
             response = jsonify({"error": "1", 'data':{},'message':'Error- Not logged in'})
@@ -140,10 +158,12 @@ def register():
     return render_template ('register.html', form=form)
        
         
-# @app.route('/api/user/logout/', methods=["GET","POST"])
-# def logout():
-#       session.pop('logged_in', None)
-#       return jsonify({'result': 'success'})
+@app.route('/api/user/logout/')
+def logout():
+      session.pop('logged_in', None)
+      return redirect(url_for('login'))
+      
+        
                 
      
 

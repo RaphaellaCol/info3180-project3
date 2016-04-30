@@ -18,6 +18,7 @@ class Additem(Form):
    thumbnail=FileField('Image')
    title = TextField('title', validators=[Required()])
    description= TextAreaField('description', validators=[Required()])
+   submit = SubmitField('Submit')
    
 class Register(Form):
     username = TextField('Firstname', validators=[Required()])

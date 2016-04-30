@@ -35,7 +35,7 @@
     {% include "header.html" %}
   </header>
 
-  <div id="main" role="main">
+  <div id="main" role="main" ng-app="MyApp">
     {% block main %}{% endblock %}
   </div>
 
@@ -48,7 +48,12 @@
 
   <!-- Grab Google CDN's jQuery, with a protocol relative URL; fall back to local if necessary -->
   <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+  
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular.min.js"></script>
+  <script src={{url_for('static', filename='js/app.js')}}></script>
+  
   <script>window.jQuery || document.write('<script src="/static/js/libs/jquery.js">\x3C/script>')</script>
+  
 
 
   <!-- Additional JavaScript libraries and plugins... -->

@@ -76,9 +76,9 @@ li a:hover {
 
 <ul>
   <li><a class="active" href="/api/user/login/">Home</a></li>
-  <li><a href="/api/wishlist"> My Wishlist</a></li>
+  <li><a href="/user/<userid>/wishlist/"> My Wishlist</a></li>
   <li id="logout"><a href="api/user/logout">Logout</a></li>
-  <li id="logout"><a href="#logout">Logout</a></li>
+
 </ul>
 <br><br><br><br>
 <div id = 'content'>
@@ -86,7 +86,7 @@ li a:hover {
     <br><br>
     <form method="post" enctype="multipart/form-data" class="add-entry">
 
-    <div id='url'>Url: {{form.url}} 
+    <div id='url'>Url: {{form.url(**{'ng-model':'url'})}} 
 
     <br><br><br>
     Title: {{form.title}}
@@ -94,9 +94,9 @@ li a:hover {
     Description: {{form.description}}
     <br><br>
     </div>
-     <a id="but" href="/api/thumbnail/process" button type="button" class="btn btn-default btn-sm">Add</button></a>
-     <a id="but" href="/api/wishlist/" button type="button" class="btn btn-default btn-sm">Add</button></a>
-
+     <!--<a id="but" href="/api/thumbnail/process" button type="button" class="btn btn-default btn-sm">Add</button></a>-->
+   
+    {{form.submit(class="btn btn-default btn-md")}}
 </div>  
    {{ form.csrf_token }}  
    
