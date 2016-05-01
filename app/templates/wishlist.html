@@ -6,6 +6,10 @@
 
 
 {% block main %}
+<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+  
 <style>
 body{
     background-color:#b3d9ff ;
@@ -43,6 +47,16 @@ li a:hover {
 #logout{
     float:right;
 }
+
+.modal-content{
+    margin-right:50%;
+    height:40;
+}
+
+#sharebut{
+    margin-left:70%;
+    background-color:#33cc33;
+}
 </style>
 
 <ul>
@@ -55,12 +69,29 @@ li a:hover {
 <h1>Wishlist</h1>
 
 <div>
-    <!--{% for add in wishlist %}-->
-    <!--    <div id="info">{{add.title}} {{add.description}}</div>-->
-    <!--    <div id="item"> <img src= "{{add.thumbnail}}"></div>-->
-      
-    <!--{% endfor %}-->
     
+ <button id="sharebut" type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Share Wishlist</button>
+ <div id="myModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Add email addresses:</h4>
+      </div>
+      
+      <div class="modal-body">
+        <p>Share</p>
+      </div>
+      
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>
     
     
 </div>

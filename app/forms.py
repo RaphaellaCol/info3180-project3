@@ -15,7 +15,7 @@ class LoginForm(Form):
     
 class Additem(Form):
    url = URLField(validators=[url()])
-   thumbnail=FileField('Image')
+   thumbnail=TextField('Image')
    title = TextField('title', validators=[Required()])
    description= TextAreaField('description', validators=[Required()])
    submit = SubmitField('Submit')

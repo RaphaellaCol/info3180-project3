@@ -117,24 +117,20 @@ def login():
     if request.method == "POST":
         email= request.form['email']
         password= request.form['password']
-        user = db.session.query(User).filter_by(email=form.email.data).first()
+        user = db.session.query(User).filter_by(email=form.email.data, password=form.password.data).first()
         if user:
             response = jsonify({"error": "null", 'data':{'email':email,'password':password},'message':'logged in'})
             session['logged_in'] = True
             return redirect(url_for('wishlist', userid=user.id))
         else:
             response = jsonify({"error": "1", 'data':{},'message':'Error- Not logged in'})
-            return redirect(url_for('login',))
-        
+            flash( 'Invalid credentials, try again') 
+            return redirect(url_for('login'))
+  
         if password is None or password =="":
-            response = jsonify({"error": "1", 'data':{},'message':'Error- Not logged in'})
-            flash('Enter password')
-            return redirect(url_for('login'))
-        
-        if user and not password:
-            response = jsonify({"error": "1", 'data':{},'message':'Error- Not logged in'})
-            return redirect(url_for('login'))
-            
+                flash('Enter password')
+                return redirect(url_for('login'))
+    
     return render_template('login.html', form=form) 
    
     
@@ -163,7 +159,42 @@ def logout():
       session.pop('logged_in', None)
       return redirect(url_for('login'))
       
-        
+# @app.route('/api/send/<userid>', methods=["GET", "POST"])
+# def send():
+#     if request.method == "POST":
+        # user = db.session.query(User).filter_by(id=userid).first()
+#         Email= request.form['email']
+#         Subject= request.form['subj']
+#         Message =request.form['msg']
+#         email(Name,Email,Subject,Message)
+#     # return render_template('contact.html')
+
+# def email(names,email,subj,msg):
+#     fromname = names
+#     toaddr = 'raphycol.info3180@gmail.com'
+#     toname = 'Me'
+#     fromaddr  = email
+#     subject = subj
+#     message = "From: {} <{}>\r\nTo: {}<{}>\r\nSubject : {}\r\n{}"
+#     msg = msg
+#     messagetosend = message.format(
+#                                  fromname,
+#                                  fromaddr,
+#                                  toname,
+#                                  toaddr,
+#                                  subject,
+#                                  msg)
+    
+#     # Credentials (if needed)
+#     username = 'raphycol.info3180@gmail.com'
+#     password = 'maehrmyaqvjrxutw'
+    
+#     # The actual mail send
+#     server = smtplib.SMTP('smtp.gmail.com:587')
+#     server.starttls()
+#     server.login(username,password)
+#     server.sendmail(fromaddr, toaddr, messagetosend)
+#     server.quit()
                 
      
 
