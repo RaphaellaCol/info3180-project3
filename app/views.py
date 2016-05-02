@@ -71,7 +71,7 @@ def api_wishlist(userid):
      return render_template('wishlist.html')
      
 """add items to wishlist"""   
-@app.route('/user/<userid>/wishlist/new', methods=["GET","POST"])
+@app.route('/user/<userid>/wishlist/new/', methods=["GET","POST"])
 def wishlist_add(userid):
     form = Additem(request.form)
    
@@ -90,7 +90,7 @@ def wishlist_add(userid):
         else:
             response = jsonify({"error": "1", 'data':{},'message':'Request failed'})
             return response
-    return render_template('add.html', form=form)
+    return render_template('add.html', form=form, userid=userid)
 
 @app.route('/user/<userid>/wishlist/', methods=["GET","POST"])
 def wishlist(userid):
@@ -109,7 +109,7 @@ def wishlist(userid):
         else:
             response = jsonify({"error": "1", 'data':{},'message':'Request failed'})
             return response
-    return render_template('wishlist.html', form=form)
+    return render_template('wishlist.html', form=form, userid=userid)
          
 @app.route('/api/user/login/', methods=["GET","POST"])
 def login():
@@ -157,6 +157,7 @@ def register():
 @app.route('/api/user/logout/')
 def logout():
       session.pop('logged_in', None)
+      flash('You were logged out')
       return redirect(url_for('login'))
       
 # @app.route('/api/send/<userid>', methods=["GET", "POST"])

@@ -60,9 +60,9 @@ li a:hover {
 </style>
 
 <ul>
-  <li><a class="active" href="/api/user/login/">Home</a></li>
-  <li><a href="/user/<userid>/wishlist/new"> Add to Wishlist</a></li>
-  <li id="logout"><a href="api/user/logout">Logout</a></li>
+  <li><a class="active" href="{{url_for('login')}}">Home</a></li>
+  <li><a href="{{ url_for('wishlist_add', userid=userid) }}"> Add to Wishlist</a></li>
+  <li id="logout"><a href="{{url_for('logout')}}">Logout</a></li>
 </ul>   
 
 
