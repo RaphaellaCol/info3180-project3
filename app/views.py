@@ -68,7 +68,7 @@ def api_wishlist(userid):
         else:
             response = jsonify({"error": "1", "data":{"items":itemlist},"message":"Success"})
             return response
-     return render_template('wishlist.html')
+     return render_template('wishlist.html', form=form, userid=userid)
      
 """add items to wishlist"""   
 @app.route('/user/<userid>/wishlist/new/', methods=["GET","POST"])
@@ -86,7 +86,7 @@ def wishlist_add(userid):
             db.session.add(item)
             db.session.commit()
             response = jsonify({"error": "null", 'data':{'url':url,'thumbnail':thumbnail,'title':title,'description':description,'user':userid},'message':'success'})
-            return redirect(url_for('api_wishlist', userid=user.id))
+            return redirect(url_for('wishlist', userid=user.id))
         else:
             response = jsonify({"error": "1", 'data':{},'message':'Request failed'})
             return response
@@ -95,7 +95,6 @@ def wishlist_add(userid):
 @app.route('/user/<userid>/wishlist/', methods=["GET","POST"])
 def wishlist(userid):
     form = Additem(request.form)
-   
     if request.method == "POST":
         url= request.form['url']
         thumbnail = request.form['thumbnail']
@@ -109,8 +108,8 @@ def wishlist(userid):
         else:
             response = jsonify({"error": "1", 'data':{},'message':'Request failed'})
             return response
-    return render_template('wishlist.html', form=form, userid=userid)
-         
+    return render_template('wishlist.html', form=form,   userid=userid)
+    
 @app.route('/api/user/login/', methods=["GET","POST"])
 def login():
     form = LoginForm(request.form)

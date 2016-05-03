@@ -89,27 +89,37 @@ li a:hover {
     font-weight:bold;
     font-size:20px;
 }
+
+.modal-body{
+    background-color:#b3d9ff;
+    padding:10px;
+}
+
+#buttons{
+     border: 0px;
+    width: 100%;
+    height: 1em;
+}
 </style>
 
 <ul>
-  <li><a class="active" href="/api/user/login/">Home</a></li>
+  <li><a class="active" href="{{url_for('login')}}">Home</a></li>
   <li><a href="{{url_for('wishlist', userid=userid)}}"> My Wishlist</a></li>
-  <li id="logout"><a href="api/user/logout">Logout</a></li>
+  <li id="logout"><a href="{{url_for('logout')}}">Logout</a></li>
 
 </ul>
 <br><br><br><br>
 <script type="text/ng-template" id="myModalContent.html">
     <div class="modal-header">
-        <h3 class="modal-title">Choose :</h3>
-        </div>
+        <h3 class="modal-title">Choose a Thumbnail:</h3>
+    </div>
         <div class="modal-body">
-        
             <div class="row image_row">
             <form name="MyForm">
-              <div class="col-xs-6 col-md-6 image_item" ng-repeat="image in images track by $index">
+              <div class="col-s-6 col-md-6 image_item" ng-repeat="image in images track by $index">
                  <img src="{| image |}" alt="...">
                 </a>
-                <input type="radio" name="imagie" ng-model="selected" ng-value="{| image |}" ng-click="dosmn(image)" >
+                <input type="radio" name="imagie" id="buttons" ng-model="selected" ng-value="{| image |}" ng-click="dosmn(image)" >
             </div>
             </form>
             </div>
@@ -123,18 +133,19 @@ li a:hover {
 <div id = 'content' ng-controller="thumbnailCtrl">
     <h1>Add to Wishlist:</h1>
     <br><br>
-    <form method="post" enctype="multipart/form-data" class="add-entry">
+    <form method="post" enctype="multipart/form-data" class="add-entry" action="{{ url_for('wishlist_add', userid=userid) }}">
 
     <div id='url'>Url: {{form.url(**{'ng-model':'url'})}} 
-    <div class='btn btn-success' ng-click='open()'>Get Images</div>
+    <div class='btn btn-success' ng-click='open()'>Select Image</div>
     <br><br><br>
     Title: {{form.title}}
     <br><br><br>
     Description: {{form.description}}
     <br><br>
     </div>
-    <img id="chosen_img" src='{| img_url |}' alt="Image">
+    <img id="chosen_img" src='{| img_url |}' alt="Thumbnail">
    {{form.thumbnail(**{'ng-model':'img_url', 'hidden':true})}}
+   <br><br>
     {{form.submit(class="btn btn-default btn-md")}}
 </div>  
    {{ form.csrf_token }}  
