@@ -57,6 +57,16 @@ li a:hover {
     margin-left:70%;
     background-color:#33cc33;
 }
+
+/*#pic{*/
+/*    float:left;*/
+/*}*/
+
+#content{
+    text-transform: capitalize;
+    
+    
+}
 </style>
 
 <ul>
@@ -97,7 +107,21 @@ li a:hover {
 </div>
 
     {% for x in wishlist %}
-         {{ x.title }} {{ x.description }}
+<div id = 'content'>
+    <div class="btn btn-default" style="width:40%;color: #AAAAFF;margin: 0 auto; margin-left:30%; padding:20px;font-size:20px;">
+         <div id="item_title" >
+             <img id= "pic" src='{{ x.thumbnail}}' alt="..">
+             <h3>
+             {{ x.title }}
+             </h3>
+         </div>
+         <div id="item_desc">
+             <p>
+                 {{ x.description }}
+             </p>
+         </div>
+    </div>
+</div>    
     {% endfor %}
 
 

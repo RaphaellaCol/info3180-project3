@@ -55,8 +55,7 @@ def imgs():
 """return user wishlist"""
 @app.route('/api/user/<userid>/wishlist/', methods=["GET"])
 def api_wishlist(userid):
-     form = Additem(request.form)
-     
+
      if request.method =="GET":
         user = db.session.query(User).filter_by(id=userid).first()
         items = db.session.query(Item).filter_by(userid=user.id).all()
@@ -68,7 +67,7 @@ def api_wishlist(userid):
         else:
             response = jsonify({"error": "1", "data":{"items":itemlist},"message":"Success"})
             return response
-     return render_template('wishlist.html', form=form, userid=userid)
+     return render_template('wishlist.html', wishlist=items, userid=userid)
      
 """add items to wishlist"""   
 @app.route('/user/<userid>/wishlist/new/', methods=["GET","POST"])
@@ -94,22 +93,12 @@ def wishlist_add(userid):
 
 @app.route('/user/<userid>/wishlist/', methods=["GET","POST"])
 def wishlist(userid):
-    form = Additem(request.form)
-    if request.method == "POST":
-        url= request.form['url']
-        thumbnail = request.form['thumbnail']
-        title= request.form['title']
-        description= request.form['description']
+    if request.method =="GET":
         user = db.session.query(User).filter_by(id=userid).first()
-        item= Item(url=url, thumbnail=thumbnail, title=title, description=description,userid=user.id)
-        if item:
-            response = jsonify({"error": "null", 'data':{'url':url,'thumbnail':thumbnail,'title':title,'description':description,'user':userid},'message':'success'})
-            return redirect(url_for('api_wishlist', userid=user.id))
-        else:
-            response = jsonify({"error": "1", 'data':{},'message':'Request failed'})
-            return response
-    return render_template('wishlist.html', form=form,   userid=userid)
-    
+        items = db.session.query(Item).filter_by(userid=user.id).all()
+
+    return render_template('wishlist.html', wishlist=items, userid=userid) 
+
 @app.route('/api/user/login/', methods=["GET","POST"])
 def login():
     form = LoginForm(request.form)
