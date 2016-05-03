@@ -90,9 +90,10 @@ li a:hover {
     font-size:20px;
 }
 
-.modal-body{
+.modal-content{
     background-color:#b3d9ff;
-    padding:10px;
+    padding:20px;
+    width: 70%;    
 }
 
 #buttons{
@@ -115,7 +116,7 @@ li a:hover {
         <div class="modal-body">
             <div class="row image_row">
             <form name="MyForm">
-              <div class="col-s-6 col-md-6 image_item" ng-repeat="image in images track by $index">
+              <div class="col-s-6 col-md-7 image_item" ng-repeat="image in images track by $index">
                  <img src="{| image |}" alt="...">
                 </a>
                 <input type="radio" name="imagie" id="buttons" ng-model="selected" ng-value="{| image |}" ng-click="dosmn(image)" >
