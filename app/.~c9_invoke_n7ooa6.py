@@ -108,12 +108,17 @@ def login():
         user = db.session.query(User).filter_by(email=form.email.data, password=form.password.data).first()
         if user:
             response = jsonify({"error": "null", 'data':{'email':email,'password':password},'message':'logged in'})
-            session['logged_in'] = True
+            # session['logged_in'] = True
             return redirect(url_for('wishlist', userid=user.id))
         else:
             response = jsonify({"error": "1", 'data':{},'message':'Error- Not logged in'})
             flash( 'Invalid credentials, try again') 
             return redirect(url_for('login'))
+  
+        if password is None or password =="":
+                flash('Enter password')
+                return redirect(url_for('login'))
+    
     return render_template('login.html', form=form) 
    
     
@@ -123,7 +128,7 @@ def register():
     if request.method == 'POST':
         username= request.form['username']
         email= request.form['email']
-        password=request.form['password']
+        password= sha256_crypt.encrypt(str(request.form['password']))
         info= User(username=username, email=email, password=password)
         if info:
             db.session.add(info)
